@@ -4,7 +4,8 @@
 \alias{relative_influence}
 \title{Methods for estimating relative influence}
 \usage{
-relative_influence(gbm_fit_obj, num_trees, rescale = FALSE, sort_it = FALSE)
+relative_influence(gbm_fit_obj, num_trees, rescale = FALSE,
+  sort_it = FALSE)
 }
 \arguments{
 \item{gbm_fit_obj}{a \code{GBMFit} object created from an initial
@@ -41,9 +42,6 @@ predictive performance. This is similar to the variable importance measures
 Breiman uses for random forests, but \code{gbmt} currently computes using the
 entire training dataset (not the out-of-bag observations).
 }
-\author{
-James Hickey, Greg Ridgeway \email{gregridgeway@gmail.com}
-}
 \references{
 J.H. Friedman (2001). "Greedy Function Approximation: A Gradient
 Boosting Machine," Annals of Statistics 29(5):1189-1232.
@@ -55,5 +53,7 @@ Forests}.
 \seealso{
 \code{\link{summary.GBMFit}}
 }
+\author{
+James Hickey, Greg Ridgeway \email{gregridgeway@gmail.com}
+}
 \keyword{hplot}
-

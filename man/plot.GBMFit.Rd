@@ -5,8 +5,9 @@
 \title{Marginal plots of fitted gbm objects}
 \usage{
 \method{plot}{GBMFit}(x, var_index = 1,
-  num_trees = gbm_fit_obj$params$num_trees, continuous_resolution = 100,
-  grid_levels = NULL, return_grid = FALSE, type = "link", ...)
+  num_trees = gbm_fit_obj$params$num_trees,
+  continuous_resolution = 100, grid_levels = NULL,
+  return_grid = FALSE, type = "link", ...)
 }
 \arguments{
 \item{x}{a \code{GBMFit} object fitted using a call to
@@ -77,4 +78,3 @@ Boosting Machine," Annals of Statistics 29(4).
 \code{\link{gbmt}}, \code{\link[graphics]{plot}}
 }
 \keyword{hplot}
-
