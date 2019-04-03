@@ -1,5 +1,8 @@
 # gbm3: generalized boosted models
 
+[![Build
+Status](https://travis-ci.org/SWotherspoon/gbm3.svg?branch=cv_all)](https://travis-ci.org/SWotherspoon/gbm3)
+
 
 Originally written by Greg Ridgeway, added to by various authors,
 currently maintained by Harry Southworth.  Development is discussed
