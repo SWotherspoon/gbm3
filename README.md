@@ -1,5 +1,4 @@
-gbm3: generalized boosted models
-----0------------------------
+# gbm3: generalized boosted models
 
 
 Originally written by Greg Ridgeway, added to by various authors,
