@@ -56,6 +56,7 @@ gbm_cross_val <- function(gbm_data_obj, gbm_dist_obj, train_params, var_containe
   }
 
   # If have multiple folds then total results object is a different class
+  gbm_results[[1]]$cv_group <- cv_groups
   class(gbm_results) <- "GBMCVFit"
 
   # Calculate errors
@@ -65,14 +66,19 @@ gbm_cross_val <- function(gbm_data_obj, gbm_dist_obj, train_params, var_containe
   best_iter_cv <- which.min(cv_errors)
 
   # Calculate predictions
-  predictions <- predict(gbm_results, gbm_data_obj, cv_folds, cv_groups, best_iter_cv)
+  predictions <- predict(gbm_results, gbm_data_obj$original_data, best_iter_cv)
+
+  ## Store models fitted to reduced data
+  cv_models <- gbm_results
+  class(cv_models) <- "GBMCVFit"
 
   # Extract relevant parts - all data model
   gbm_results <- gbm_results[[1]]
   gbm_results$cv_folds <- cv_folds
   gbm_results$cv_error <- cv_errors
-  gbm_results$cv_fitted <- predictions[,1]
-  gbm_results$cv_fitted_folds <- predictions[,-1]
+  gbm_results$cv_fitted <- predictions
+  gbm_results$cv_models <- cv_models
+  gbm_results$data_obj <- gbm_data_obj
 
 
   return(gbm_results)

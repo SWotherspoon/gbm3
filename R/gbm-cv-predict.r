@@ -8,13 +8,10 @@
 #' @param gbm_data_obj a GBMData object containing all of the data
 #' used to fit a gbm model.
 #'
-#' @param cv_folds a positive integer specifying the number of folds
-#' to be used in cross-validation of the gbm fit.
-#'
-#' @param cv_group vector of integers specifying which row of data
-#' belongs to which cv_fold.
-#'
 #' @param best_iter_cv number of trees with the smallest cv error
+#'
+#' @param cv_all return a matrix of predictions for all observations
+#' or just a vector of predictions for the excluded observations.
 #'
 #' @param \dots not currently used
 #'
@@ -23,27 +20,35 @@
 #' @return a matrix of predictions for each cv fold.
 #' @importFrom stats predict
 #' @export
-predict.GBMCVFit <- function(object, gbm_data_obj, cv_folds,
-                             cv_group, best_iter_cv, ...) {
+predict.GBMCVFit <- function(object, data, best_iter_cv,
+                             cv_all=FALSE,...) {
 
-  # Extract data
-  data <- gbm_data_obj$original_data[seq_len(object[[1]]$params$num_train), ,drop=FALSE]
+  # Extract fold info
+  cv_folds <- length(object)-1
+  cv_group <- object[[1]]$cv_group
 
-  ## test cv_group and data match
-  if (nrow(data) != length(cv_group)) {
-    stop("mismatch between data and cv_group")
-  }
+  if (cv_all) {
+    result <- matrix(nrow=nrow(data), ncol=cv_folds)
+    for (ind in seq_len(cv_folds)) {
+      model <- object[[ind+1]]
+      my_data  <- data[, model$variables$var_names, drop=FALSE]
+      predictions <- predict(model, newdata=my_data, n.trees=best_iter_cv)
+      result[,ind] <- predictions
+    }
+  } else {
 
-  #Flatten data for prediction
-  result <- matrix(nrow=nrow(data), ncol=cv_folds+1)
+    ## test cv_group and data match
+    if (nrow(data) != length(cv_group))
+      stop("mismatch between data and cv_group")
 
-  for (ind in seq_len(cv_folds)) {
-    flag <- cv_group == ind
-    model <- object[[ind+1]]
-    my_data  <- data[, model$variables$var_names, drop=FALSE]
-    predictions <- predict(model, newdata=my_data, n.trees=best_iter_cv)
-    result[,ind+1] <- predictions
-    result[flag,1] <- predictions[flag]
+    result <- double(nrow(data))
+    for (ind in seq_len(cv_folds)) {
+      excluded <- cv_group == ind
+      model <- object[[ind+1]]
+      my_data  <- data[excluded, model$variables$var_names, drop=FALSE]
+      predictions <- predict(model, newdata=my_data, n.trees=best_iter_cv)
+      result[excluded] <- predictions
+    }
   }
 
   return(result)

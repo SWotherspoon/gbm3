@@ -4,24 +4,21 @@
 \alias{predict.GBMCVFit}
 \title{Predictions for CV fitted GBM models}
 \usage{
-\method{predict}{GBMCVFit}(object, gbm_data_obj, cv_folds, cv_group,
-  best_iter_cv, ...)
+\method{predict}{GBMCVFit}(object, data, best_iter_cv, cv_all = FALSE,
+  ...)
 }
 \arguments{
 \item{object}{a GBMCVFit object containing CV gbm models}
 
-\item{gbm_data_obj}{a GBMData object containing all of the data
-used to fit a gbm model.}
-
-\item{cv_folds}{a positive integer specifying the number of folds
-to be used in cross-validation of the gbm fit.}
-
-\item{cv_group}{vector of integers specifying which row of data
-belongs to which cv_fold.}
-
 \item{best_iter_cv}{number of trees with the smallest cv error}
 
+\item{cv_all}{return a matrix of predictions for all observations
+or just a vector of predictions for the excluded observations.}
+
 \item{\dots}{not currently used}
+
+\item{gbm_data_obj}{a GBMData object containing all of the data
+used to fit a gbm model.}
 }
 \value{
 a matrix of predictions for each cv fold.
