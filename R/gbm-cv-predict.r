@@ -3,6 +3,11 @@
 #' Calculate predictions from cross validated generalized boosting
 #' model from gbm2.
 #'
+#' If cv_groups is NULL, the predictions from the models fitted to
+#' each cv subset are returned as a matrix.  Otherwise this argument
+#' should be an integer vector indicating which of the k-fold models
+#' should be used to predict each observation.
+#'
 #' @param object a GBMCVFit object containing CV gbm models
 #'
 #' @param gbm_data_obj a GBMData object containing all of the data
@@ -10,29 +15,29 @@
 #'
 #' @param best_iter_cv number of trees with the smallest cv error
 #'
-#' @param cv_all return a matrix of predictions for all observations
-#' or just a vector of predictions for the excluded observations.
+#' @param cv_groups NULL or an integer vector indicating which model
+#' should be used fro prediction.
 #'
-#' @param \dots not currently used
+#' @param \dots other options to \code{\link{predict.GBMFit}}
 #'
 #' @author James Hickey
 #'
-#' @return a matrix of predictions for each cv fold.
+#' @return either a vector or matrix of predictions.
 #' @importFrom stats predict
 #' @export
 predict.GBMCVFit <- function(object, data, best_iter_cv,
-                             cv_all=FALSE,...) {
+                             cv_groups=NULL,...) {
 
   # Extract fold info
   cv_folds <- length(object)-1
   cv_group <- object[[1]]$cv_group
 
-  if (cv_all) {
+  if (is.null(cv_groups)) {
     result <- matrix(nrow=nrow(data), ncol=cv_folds)
     for (ind in seq_len(cv_folds)) {
       model <- object[[ind+1]]
       my_data  <- data[, model$variables$var_names, drop=FALSE]
-      predictions <- predict(model, newdata=my_data, n.trees=best_iter_cv)
+      predictions <- predict(model, newdata=my_data, n.trees=best_iter_cv,...)
       result[,ind] <- predictions
     }
   } else {
@@ -42,11 +47,12 @@ predict.GBMCVFit <- function(object, data, best_iter_cv,
       stop("mismatch between data and cv_group")
 
     result <- double(nrow(data))
+    result[] <- NA
     for (ind in seq_len(cv_folds)) {
       excluded <- cv_group == ind
       model <- object[[ind+1]]
       my_data  <- data[excluded, model$variables$var_names, drop=FALSE]
-      predictions <- predict(model, newdata=my_data, n.trees=best_iter_cv)
+      predictions <- predict(model, newdata=my_data, n.trees=best_iter_cv,...)
       result[excluded] <- predictions
     }
   }

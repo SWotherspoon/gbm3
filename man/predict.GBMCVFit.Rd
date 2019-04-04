@@ -4,7 +4,7 @@
 \alias{predict.GBMCVFit}
 \title{Predictions for CV fitted GBM models}
 \usage{
-\method{predict}{GBMCVFit}(object, data, best_iter_cv, cv_all = FALSE,
+\method{predict}{GBMCVFit}(object, data, best_iter_cv, cv_groups = NULL,
   ...)
 }
 \arguments{
@@ -12,20 +12,26 @@
 
 \item{best_iter_cv}{number of trees with the smallest cv error}
 
-\item{cv_all}{return a matrix of predictions for all observations
-or just a vector of predictions for the excluded observations.}
+\item{cv_groups}{NULL or an integer vector indicating which model
+should be used fro prediction.}
 
-\item{\dots}{not currently used}
+\item{\dots}{other options to \code{\link{predict.GBMFit}}}
 
 \item{gbm_data_obj}{a GBMData object containing all of the data
 used to fit a gbm model.}
 }
 \value{
-a matrix of predictions for each cv fold.
+either a vector or matrix of predictions.
 }
 \description{
 Calculate predictions from cross validated generalized boosting
 model from gbm2.
+}
+\details{
+If cv_groups is NULL, the predictions from the models fitted to
+each cv subset are returned as a matrix.  Otherwise this argument
+should be an integer vector indicating which of the k-fold models
+should be used to predict each observation.
 }
 \author{
 James Hickey

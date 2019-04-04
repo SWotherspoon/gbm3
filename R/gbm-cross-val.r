@@ -66,7 +66,7 @@ gbm_cross_val <- function(gbm_data_obj, gbm_dist_obj, train_params, var_containe
   best_iter_cv <- which.min(cv_errors)
 
   # Calculate predictions
-  predictions <- predict(gbm_results, gbm_data_obj$original_data, best_iter_cv)
+  predictions <- predict(gbm_results, gbm_data_obj$original_data, best_iter_cv, cv_groups)
 
   ## Store models fitted to reduced data
   cv_models <- gbm_results
