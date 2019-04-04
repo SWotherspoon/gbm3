@@ -4,7 +4,7 @@
 \alias{predict.GBMCVFit}
 \title{Predictions for CV fitted GBM models}
 \usage{
-\method{predict}{GBMCVFit}(object, data, best_iter_cv, cv_groups = NULL,
+\method{predict}{GBMCVFit}(object, data, best_iter_cv, cv_group = NULL,
   ...)
 }
 \arguments{
@@ -12,7 +12,7 @@
 
 \item{best_iter_cv}{number of trees with the smallest cv error}
 
-\item{cv_groups}{NULL or an integer vector indicating which model
+\item{cv_group}{NULL or an integer vector indicating which model
 should be used fro prediction.}
 
 \item{\dots}{other options to \code{\link{predict.GBMFit}}}

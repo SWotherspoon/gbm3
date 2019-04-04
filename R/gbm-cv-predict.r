@@ -15,7 +15,7 @@
 #'
 #' @param best_iter_cv number of trees with the smallest cv error
 #'
-#' @param cv_groups NULL or an integer vector indicating which model
+#' @param cv_group NULL or an integer vector indicating which model
 #' should be used fro prediction.
 #'
 #' @param \dots other options to \code{\link{predict.GBMFit}}
@@ -26,13 +26,12 @@
 #' @importFrom stats predict
 #' @export
 predict.GBMCVFit <- function(object, data, best_iter_cv,
-                             cv_groups=NULL,...) {
+                             cv_group=NULL,...) {
 
   # Extract fold info
   cv_folds <- length(object)-1
-  cv_group <- object[[1]]$cv_group
 
-  if (is.null(cv_groups)) {
+  if (is.null(cv_group)) {
     result <- matrix(nrow=nrow(data), ncol=cv_folds)
     for (ind in seq_len(cv_folds)) {
       model <- object[[ind+1]]
