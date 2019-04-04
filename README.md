@@ -22,5 +22,5 @@ Then install `gbm3` from GitHub:
 
 ```R
 library("devtools")
-install_github("gbm-developers/gbm3")
+install_github("SWotherspoon/gbm3",ref="cv_all")
 ```
