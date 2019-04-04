@@ -10,15 +10,15 @@
 \arguments{
 \item{object}{a GBMCVFit object containing CV gbm models}
 
+\item{data}{a GBMData object containing all of the data
+used to fit a gbm model.}
+
 \item{best_iter_cv}{number of trees with the smallest cv error}
 
 \item{cv_group}{NULL or an integer vector indicating which model
 should be used fro prediction.}
 
 \item{\dots}{other options to \code{\link{predict.GBMFit}}}
-
-\item{gbm_data_obj}{a GBMData object containing all of the data
-used to fit a gbm model.}
 }
 \value{
 either a vector or matrix of predictions.

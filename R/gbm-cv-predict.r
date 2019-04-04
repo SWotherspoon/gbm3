@@ -10,7 +10,7 @@
 #'
 #' @param object a GBMCVFit object containing CV gbm models
 #'
-#' @param gbm_data_obj a GBMData object containing all of the data
+#' @param data a GBMData object containing all of the data
 #' used to fit a gbm model.
 #'
 #' @param best_iter_cv number of trees with the smallest cv error
